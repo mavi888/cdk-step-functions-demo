@@ -1,0 +1,43 @@
+{
+	"Comment": "A simple state machine that connects to an endpoint",
+	"StartAt": "Call third-party API",
+	"States": {
+		"Call third-party API": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::http:invoke",
+			"Parameters": {
+				"ApiEndpoint": "${Endpoint}",
+				"Method": "GET",
+				"Authentication": {
+					"ConnectionArn": "${ConnectionARN}"
+				}
+			},
+			"TimeoutSeconds": 30,
+			"End": true,
+			"Catch": [
+				{
+					"ErrorEquals": ["States.TaskFailed"],
+					"Next": "SNS Publish"
+				}
+			],
+			"Retry": [
+				{
+					"ErrorEquals": ["States.TaskFailed"],
+					"BackoffRate": 2,
+					"IntervalSeconds": 2,
+					"MaxAttempts": 1,
+					"JitterStrategy": "FULL"
+				}
+			]
+		},
+		"SNS Publish": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::sns:publish",
+			"Parameters": {
+				"Message.$": "$",
+				"TopicArn": "${NotificationTopic}"
+			},
+			"End": true
+		}
+	}
+}

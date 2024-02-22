@@ -1,0 +1,8 @@
+{
+	"apiId": "1234abcd",
+	"apiPath": "testHttp",
+	"apiGatewayARN": "arn:aws:apigateway:us-east-1::/apis/1234abcd",
+	"httpEndpoint": "https://1234abcd.execute-api.us-east-1.amazonaws.com/testHttp",
+	"connectionArn": "arn:aws:events:us-east-1:xxxxx:connection/APIConnection-fHmakOHzIB7b/asdfasdf23asdfa23sdf-342asdfa",
+	"notificationTopic": "arn:aws:sns:us-east-1:xxxxx:sam-stepfunctions-http-endpoint-NotificationTopic-EASja3242"
+}
